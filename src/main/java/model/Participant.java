@@ -2,10 +2,6 @@ package model;
 
 import java.util.Date;
 
-enum ParticipantRole {
-    ADMIN, HOST, PARTICIPANT
-}
-
 public class Participant {
 
     private String id;
