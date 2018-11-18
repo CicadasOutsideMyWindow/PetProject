@@ -2,25 +2,29 @@ package model;
 
 import java.util.Date;
 
+enum ParticipantRole {
+    ADMIN, HOST, PARTICIPANT
+}
+
 public class Participant {
 
     private String id;
     private String name;
-    private String role;
+    private ParticipantRole role;
     private Date dob;
     private String email;
     private boolean banned;
     private double attendance;
 
 
-    public Participant(String id, String name, String role, String email) {
+    public Participant(String id, String name, ParticipantRole role, String email) {
         this.id = id;
         this.name = name;
         this.role = role;
         this.email = email;
     }
 
-    public Participant(String id, String name, String role, String email, Date dob, boolean banned, double attendance) {
+    public Participant(String id, String name, ParticipantRole role, String email, Date dob, boolean banned, double attendance) {
         super();
         this.dob = dob;
         this.banned = banned;
@@ -44,11 +48,11 @@ public class Participant {
         this.name = name;
     }
 
-    public String getRole() {
+    public ParticipantRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void ParticipantRole(ParticipantRole role) {
         this.role = role;
     }
 
