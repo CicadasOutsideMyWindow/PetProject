@@ -1,10 +1,10 @@
 package dao;
 
-import adaptors.ParticipantAdaptor;
+import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
 import model.Participant;
 
 public class ParticipantDao implements Dao<DBCollection,Participant> {
@@ -16,15 +16,21 @@ public class ParticipantDao implements Dao<DBCollection,Participant> {
     }
 
     public void create(Participant participant) {
-        collection.insert(ParticipantAdaptor.toDBObject(participant));
+
+        Gson gson = new Gson();
+        String json = gson.toJson(participant);
+        DBObject participantDBObject = (DBObject) JSON.parse(json);
+
+        collection.insert(participantDBObject);
     }
 
     public DBObject retrieve(String id) {
         BasicDBObject _id = new BasicDBObject();
-        DBCursor cursor = collection.find(_id);
+
+        DBObject participant = collection.findOne(_id);
         _id.put("_id", id);
 
-        return cursor.next();
+        return participant;
     }
 
     public void update(BasicDBObject query, BasicDBObject updates) {
