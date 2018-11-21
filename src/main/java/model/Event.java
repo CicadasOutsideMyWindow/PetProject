@@ -8,14 +8,18 @@ public class Event {
     private String id;
     private Date startDate;
     private Date endDate;
+    private String duration;
     private String title;
     private Date timestamp;
     private String location;
     private String description;
     private List<Participant> participants;
     private List<Participant> waitlist;
+    private List<Participant> banned;
     private Participant eventHost;
-
+    private int listCapacity;
+    private int waitlistCapacity;
+    private Venue venue;
 
     public Event(String id, Date startDate, Date endDate, String title, Date timestamp, String location, List<Participant> participants) {
         this.id = id;
@@ -49,6 +53,15 @@ public class Event {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     public String getTitle() {
