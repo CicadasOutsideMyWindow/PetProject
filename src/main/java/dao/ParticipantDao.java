@@ -1,7 +1,6 @@
 package dao;
 
 import com.google.gson.Gson;
-import com.mongodb.DBCollection;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import model.Participant;
@@ -9,7 +8,7 @@ import org.bson.Document;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public class ParticipantDao implements Dao<DBCollection,Participant> {
+public class ParticipantDao implements Dao<Participant> {
 
     MongoCollection collection;
 

@@ -1,13 +1,12 @@
 package dao;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
+import org.bson.Document;
 
-public interface Dao<T,S> {
+public interface Dao<S> {
 
-    void create(S s);
-    DBObject retrieve(String id);
-    void update(BasicDBObject query, BasicDBObject updates);
-    void delete(String id);
+    Document create(S s);
+    Document retrieve(String id);
+    Document update(S s);
+    Document delete(String id);
 
 }
