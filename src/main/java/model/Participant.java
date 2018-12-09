@@ -4,17 +4,17 @@ import java.util.Date;
 
 public class Participant {
 
-    private String id;
-    private String name;
-    private ParticipantRole role;
-    private Date dob;
-    private String email;
-    private boolean banned;
-    private double attendance;
+    public String id;
+    public String name;
+    public ParticipantRole role;
+    public Date dob;
+    public String email;
+    public boolean banned;
+    public boolean deleted;
+    public double attendance;
 
 
-    public Participant(String id, String name, ParticipantRole role, String email) {
-        this.id = id;
+    public Participant(String name, ParticipantRole role, String email) {
         this.name = name;
         this.role = role;
         this.email = email;

@@ -4,7 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import model.Event;
 
-public class EventAdaptor {
+public class VenueAdaptor {
 
     public static final DBObject toDBObject(Event event) {
         return new BasicDBObject(
