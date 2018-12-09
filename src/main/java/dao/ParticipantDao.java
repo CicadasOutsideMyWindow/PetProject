@@ -3,61 +3,51 @@ package dao;
 import com.google.gson.Gson;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.UpdateResult;
+
 import model.Participant;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import static com.mongodb.client.model.Filters.eq;
 
 public class ParticipantDao implements Dao<Participant> {
 
     MongoCollection collection;
+    Gson gson;
 
     public ParticipantDao(MongoCollection collection) {
         this.collection = collection;
+        gson = new Gson();
     }
 
-    public Document create(Participant participant) {
-
-        Gson gson = new Gson();
+    public Participant create(Participant participant) {
+        participant.id = new ObjectId().toHexString();
         Document p = Document.parse(gson.toJson(participant));
-
+        p.put("_id", participant.id);
         collection.insertOne(p);
-
-        return p;
+        return retrieve(participant.id);
     }
 
-    public Document retrieve(String id) {
-
+    public Participant retrieve(String id) {
         Document p  = (Document) collection.find(eq("_id", id)).first();
-
-        return p;
+        return gson.fromJson(p.toJson(), Participant.class);
     }
 
-    public Document update(Participant participant) {
-
-        Gson gson = new Gson();
+    public Participant update(Participant participant) throws Exception {
         Document p = Document.parse(gson.toJson(participant));
+        UpdateResult res = collection.replaceOne(Filters.eq("_id", participant.getId()), p);
 
-        collection.replaceOne(Filters.eq("_id", participant.getId()), p);
-
-        return p;
-
+        if (res.getModifiedCount() > 0) {
+            return retrieve(participant.id);
+        }
+        throw new Exception("Not found");
     }
 
-    public Document delete(String id) {
-
-        Gson gson = new Gson();
-
-        Document p = retrieve(id);
-
-        Participant participant = gson.fromJson(gson.toJson(p), Participant.class);
-        participant.setDeleted();
-
-        update(participant);
-
-        p = Document.parse(gson.toJson(participant));
-
-        return p;
+    public Participant delete(String id) throws Exception {
+        Participant p = retrieve(id);
+        p.deleted = true;
+        return update(p);
 
     }
 }
