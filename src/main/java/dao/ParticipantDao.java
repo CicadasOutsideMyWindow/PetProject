@@ -3,61 +3,59 @@ package dao;
 import com.google.gson.Gson;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.UpdateResult;
 import model.Participant;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import static com.mongodb.client.model.Filters.eq;
 
 public class ParticipantDao implements Dao<Participant> {
 
     MongoCollection collection;
+    Gson gson;
 
     public ParticipantDao(MongoCollection collection) {
         this.collection = collection;
+        gson = new Gson();
     }
 
-    public Document create(Participant participant) {
+    public Participant create(Participant participant) {
 
-        Gson gson = new Gson();
+        String id = new ObjectId().toHexString();
+        participant.setId(id);
+
         Document p = Document.parse(gson.toJson(participant));
-
+        p.put("_id", participant.getId());
         collection.insertOne(p);
 
-        return p;
+        return retrieve(participant.getId());
     }
 
-    public Document retrieve(String id) {
+    public Participant retrieve(String id) {
 
         Document p  = (Document) collection.find(eq("_id", id)).first();
 
-        return p;
+        return gson.fromJson(p.toJson(), Participant.class);
     }
 
-    public Document update(Participant participant) {
+    public Participant update(String id, Participant participant) throws Exception{
 
-        Gson gson = new Gson();
         Document p = Document.parse(gson.toJson(participant));
+        UpdateResult result = collection.replaceOne(Filters.eq("_id", id), p);
 
-        collection.replaceOne(Filters.eq("_id", participant.getId()), p);
-
-        return p;
-
+        if (result.getModifiedCount() > 0) {
+            return retrieve(id);
+        }
+        throw new Exception("Participant Not Fount");
     }
 
-    public Document delete(String id) {
+    public Participant delete(String id) throws Exception {
 
-        Gson gson = new Gson();
+        Participant p = retrieve(id);
+        p.setDeleted();
 
-        Document p = retrieve(id);
-
-        Participant participant = gson.fromJson(gson.toJson(p), Participant.class);
-        participant.setDeleted();
-
-        update(participant);
-
-        p = Document.parse(gson.toJson(participant));
-
-        return p;
+        return update(id, p);
 
     }
 }
