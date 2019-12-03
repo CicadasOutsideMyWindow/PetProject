@@ -2,21 +2,28 @@ package adaptors;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import model.Event;
+import model.Venue;
 
-public class EventAdaptor {
+public class VenueAdaptor {
 
-    public static final DBObject toDBObject(Event event) {
+    /*
+     *
+     *    private String _id;
+    private String venueName;
+    private String address;
+    private String surfaceType;
+    private String dimensions;
+    private List<Image> photos;
+     */
+
+    public static final DBObject toDBObject( Venue venue) {
         return new BasicDBObject(
-                "_id", event.getId())
-                .append("eventName", event.getTitle())
-                .append("startDate", event.getStartDate())
-                .append("duration", event.getDuration())
-                .append("location", event.getLocation())
-                .append("description", event.getDescription())
-                .append("participants", event.getParticipants())
-                .append("waitlist", event.getWaitlist())
-                .append("eventHost", event.getEventHost());
+                "_id", venue.getId())
+                .append("venueName", venue.getVenueName())
+                .append("address", venue.getAddress())
+                .append("surfaceType", venue.getSurfaceType())
+                .append("dimensions", venue.getDimensions())
+                .append("photos", venue.getPhotos());
     }
 
 }
