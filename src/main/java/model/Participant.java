@@ -4,40 +4,50 @@ import java.util.Date;
 
 public class Participant {
 
-    private String id;
+    private String _id;
     private String name;
     private ParticipantRole role;
     private Date dob;
     private String email;
     private boolean banned;
     private double attendance;
+//    private int noShows;
+    private int late;
+    private boolean isDeleted;
+
+    //TODO: add date joined to the group;
+    //      add date joined to an event;
+    //      add total games attended;
 
 
-    public Participant(String id, String name, ParticipantRole role, String email) {
-        this.id = id;
+    public Participant(String name, ParticipantRole role, String email) {
         this.name = name;
         this.role = role;
         this.email = email;
     }
 
-    public Participant(String id, String name, ParticipantRole role, String email, Date dob, boolean banned, double attendance) {
-        super();
-        this.dob = dob;
-        this.banned = banned;
-        this.attendance = attendance;
-    }
-
-
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
+    }
+
+    public void setDeleted() {
+        this.isDeleted = true;
+    }
+
+    public void setUndeleted() {
+        this.isDeleted = false;
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean isDeleted(){
+        return isDeleted;
     }
 
     public void setName(String name) {
