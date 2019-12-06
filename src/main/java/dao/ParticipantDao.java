@@ -2,11 +2,15 @@ package dao;
 
 import com.google.gson.Gson;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.UpdateResult;
 import model.Participant;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -57,5 +61,21 @@ public class ParticipantDao implements Dao<Participant> {
 
         return update(id, p);
 
+    }
+
+    public List<Document> getAllParticipants() {
+
+        MongoCursor<Document> cursor = collection.find().iterator();
+        List<Document> documentList = new ArrayList<Document>();
+
+        try {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                documentList.add(doc);
+            }
+        } finally {
+            cursor.close();
+        }
+    return documentList;
     }
 }
