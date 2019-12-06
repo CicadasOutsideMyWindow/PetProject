@@ -9,11 +9,12 @@ public class Participant {
     private ParticipantRole role;
     private Date dob;
     private String email;
-    private boolean banned;
+    private boolean isBanned;
     private double attendance;
 //    private int noShows;
     private int late;
     private boolean isDeleted;
+    private Date createdOn;
 
     //TODO: add date joined to the group;
     //      add date joined to an event;
@@ -23,6 +24,11 @@ public class Participant {
     public Participant(String name, ParticipantRole role, String email) {
         this.name = name;
         this.role = role;
+        this.email = email;
+    }
+
+    public Participant(String name, String email) {
+        this.name = name;
         this.email = email;
     }
 
@@ -46,7 +52,7 @@ public class Participant {
         return name;
     }
 
-    public boolean isDeleted(){
+    public boolean setIsDeleted(boolean isDeleted){
         return isDeleted;
     }
 
@@ -58,8 +64,9 @@ public class Participant {
         return role;
     }
 
-    public void ParticipantRole(ParticipantRole role) {
+    public String setRole(ParticipantRole role) {
         this.role = role;
+        return role.toString();
     }
 
     public String getEmail(){
@@ -79,11 +86,11 @@ public class Participant {
     }
 
     public boolean isBanned() {
-        return banned;
+        return isBanned;
     }
 
-    public void setBanned(boolean banned) {
-        this.banned = banned;
+    public boolean setIsBanned(boolean isBanned) {
+        return isBanned;
     }
 
     public double getAttendance() {
@@ -92,5 +99,22 @@ public class Participant {
 
     public void setAttendance(double attendance) {
         this.attendance = attendance;
+    }
+
+//    public Date getAccountCreated() {
+//        return accountCreated;
+//    }
+
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+//    public void setCreatedOn(Date createdOn) {
+//        this.createdOn = createdOn;
+//    }
+
+    public Date setCreatedOn() {
+        Date date = new Date();
+        return date;
     }
 }

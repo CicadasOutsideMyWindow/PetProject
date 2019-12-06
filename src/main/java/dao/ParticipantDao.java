@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.UpdateResult;
 import model.Participant;
+import model.ParticipantRole;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -30,7 +31,13 @@ public class ParticipantDao implements Dao<Participant> {
         participant.setId(id);
 
         Document p = Document.parse(gson.toJson(participant));
+
         p.put("_id", participant.getId());
+//        p.put("name", participant.setName());
+        p.put("role", participant.setRole(ParticipantRole.PARTICIPANT));
+        p.put("createdOn", participant.setCreatedOn());
+        p.put("isBanned", participant.setIsBanned(false));
+        p.put("isDeleted", participant.setIsDeleted(false));
         collection.insertOne(p);
 
         return retrieve(participant.getId());
@@ -64,6 +71,17 @@ public class ParticipantDao implements Dao<Participant> {
     }
 
     public List<Document> getAllParticipants() {
+//TODO: return JSON including additional info (at least a total count of documetns)
+//        {
+//            "limit":1,
+//            "offset":0,
+//            "count":10,
+//            "order":{
+//                  "by":"Name",
+//                  "direction":"asc"
+//             },
+//            "items": []
+//        }
 
         MongoCursor<Document> cursor = collection.find().iterator();
         List<Document> documentList = new ArrayList<Document>();
