@@ -6,7 +6,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 import servlets.AllParticipantsServlet;
 import servlets.CreateParticipantServlet;
-import servlets.HelloServlet;
 
 
 public class WebServer {
@@ -15,8 +14,8 @@ public class WebServer {
 
         WebAppContext webApp = new WebAppContext();
         webApp.setResourceBase("/src/main/webapp");
+        webApp.setWelcomeFiles(new String[] {"createnewplayer.html"});
         webApp.setContextPath("/");
-        webApp.addServlet(HelloServlet.class, "/api/*");
         webApp.addServlet(AllParticipantsServlet.class, "/participants");
         webApp.addServlet(CreateParticipantServlet.class, "/newplayerconfirmation.html");
 
