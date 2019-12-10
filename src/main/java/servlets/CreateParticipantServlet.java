@@ -10,8 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-@WebServlet(name="create_participant_servlet", urlPatterns = {"/participants"})
+@WebServlet(name="create_participant_servlet", urlPatterns = {"/newplayerconfirmation.html"})
 
 public class CreateParticipantServlet extends HttpServlet {
 
@@ -23,13 +25,19 @@ public class CreateParticipantServlet extends HttpServlet {
 
     ParticipantDao pdao = new ParticipantDao(participants);
 
-    public void service(HttpServletRequest request, HttpServletResponse response) {
+    public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        String firstName = request.getParameter("firstName");
+        String firstName = request.getParameter("name");
         String email = request.getParameter("email");
 
         Participant p = new Participant(firstName, email);
         pdao.create(p);
+
+        PrintWriter out = response.getWriter();
+        out.println("<html><body> user has been created: ");
+        out.println("user ID: " + p.getId());
+        out.println("user name: " + p.getName());
+        out.println("</body></html>");
     }
 
 

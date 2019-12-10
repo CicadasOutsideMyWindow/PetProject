@@ -18,7 +18,7 @@ public class WebServer {
         webApp.setContextPath("/");
         webApp.addServlet(HelloServlet.class, "/api/*");
         webApp.addServlet(AllParticipantsServlet.class, "/participants");
-        webApp.addServlet(CreateParticipantServlet.class, "/createPlayerConfirmation.html");
+        webApp.addServlet(CreateParticipantServlet.class, "/newplayerconfirmation.html");
 
         DefaultServlet defaultServlet = new DefaultServlet();
         ServletHolder holderPwd = new ServletHolder("default", defaultServlet);
