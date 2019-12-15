@@ -1,10 +1,7 @@
 package servlets;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import dao.ParticipantDao;
-import model.Participant;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,31 +10,26 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name="create_participant_servlet", urlPatterns = {"/newplayerconfirmation.html"})
+@WebServlet(name="create_participant_servlet", urlPatterns = {"/createnewplayer.html"})
 
 public class CreateParticipantServlet extends HttpServlet {
 
-    final String DB_NAME = "ThePetProjectDB";
-    final String COLLECTION_NAME = "Participants";
-    MongoClient mongoClient = new MongoClient();
-    MongoDatabase mdb = mongoClient.getDatabase(DB_NAME);
-    MongoCollection participants = mdb.getCollection(COLLECTION_NAME);
-
-    ParticipantDao pdao = new ParticipantDao(participants);
+    private static Logger logger = LogManager.getLogger(CreateParticipantServlet.class);
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        String firstName = request.getParameter("name");
-        String email = request.getParameter("email");
-
-        Participant p = new Participant(firstName, email);
-        pdao.create(p);
+        logger.info("Creating a new user");
 
         PrintWriter out = response.getWriter();
-        out.println("<html><body> user has been created: ");
-        out.println("user ID: " + p.getId());
-        out.println("user name: " + p.getName());
-        out.println("</body></html>");
+        response.setContentType("text/html");
+        out.println("<html lang=\"en\"><head><meta charset=\"UTF-8\"><meta charset=\"UTF-8\"><title>Create New Player</title>");
+        out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"form.css\"></head>");
+        out.println("<body> Create New Player <form action=\"/newplayercreated.html\" method=\"POST\" id=\"contact\" name=\"contact\" accept-charset=\"utf-8\">");
+        out.println("<label><span>Name</span><input name=\"name\" type=\"text\" placeholder=\"Name\"/></label>");
+        out.println("<label><span>Email</span><input name=\"email\" type=\"email\" placeholder=\"Email\"/></label>");
+        out.println("<input name=\"submit\" type=\"submit\" /></form></body></html>");
+        out.close();
+
     }
 
 

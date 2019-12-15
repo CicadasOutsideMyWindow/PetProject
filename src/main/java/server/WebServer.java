@@ -6,6 +6,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 import servlets.AllParticipantsServlet;
 import servlets.CreateParticipantServlet;
+import servlets.ParticipantCreatedServlet;
+import servlets.ParticipantCreationConfirmationServlet;
 
 
 public class WebServer {
@@ -17,7 +19,9 @@ public class WebServer {
         webApp.setWelcomeFiles(new String[] {"createnewplayer.html"});
         webApp.setContextPath("/");
         webApp.addServlet(AllParticipantsServlet.class, "/participants");
-        webApp.addServlet(CreateParticipantServlet.class, "/newplayerconfirmation.html");
+        webApp.addServlet(CreateParticipantServlet.class, "/createnewplayer.html");
+        webApp.addServlet(ParticipantCreatedServlet.class, "/newplayercreated.html");
+        webApp.addServlet(ParticipantCreationConfirmationServlet.class, "/newplayerconfirmation.html");
 
         DefaultServlet defaultServlet = new DefaultServlet();
         ServletHolder holderPwd = new ServletHolder("default", defaultServlet);
