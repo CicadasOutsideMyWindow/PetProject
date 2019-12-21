@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -24,11 +25,14 @@ public class ParticipantCreationConfirmationServlet extends HttpServlet {
 
     private ParticipantDao pdao = new ParticipantDao(participants);
 
+
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        String firstName = request.getParameter("name");
-        String email = request.getParameter("email");
+        HttpSession session = request.getSession();
+        String firstName = (String) session.getAttribute("name");
+        String email = (String) session.getAttribute("email");
 
+        // TODO: redirect to the create_player page if there are no cookies
 
         PrintWriter out = response.getWriter();
         out.println("<html><body> user has been created: ");
